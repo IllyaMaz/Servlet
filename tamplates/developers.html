@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+
+
+<div th:each="developer: ${developers}">
+    <div style="padding-top: 20px">
+    <div th:text="'Name: ' + ${developer.firstName}"></div>
+    <div th:text="'Age: ' + ${developer.age}"></div>
+    <div th:text="'Gender: ' + ${developer.gender}"></div>
+    <div th:text="'Salary: ' + ${developer.salary}"></div>
+        <form action="/developers/delete" method="post">
+            <input type="hidden" th:value="${developer.id}" name="id">
+            <button type="submit">Delete</button>
+        </form>
+    </div>
+</div>
+
+<div>
+    <form action="/developers" method="post">
+        <label>Id</label><br>
+        <input type="text" name="id"><br>
+        <label>Name</label><br>
+        <input type="text" name="name"><br>
+        <label>Age</label><br>
+        <input type="text" name="age"><br>
+        <label>Gender</label><br>
+        <input type="text" name="gender"><br>
+        <label>Salary</label><br>
+        <input type="text" name="salary"><br>
+        <button type="submit">Post</button>
+    </form>
+</div>
+
+<div>
+    <form action="/developers/update" method="post" style="padding-top: 10px">
+        <label>Old name</label><br>
+        <input type="text" name="old_name"><br><br>
+        <label>New name</label><br>
+        <input type="text" name="new_name"><br>
+        <label>New age</label><br>
+        <input type="text" name="new_age"><br>
+        <label>New gender</label><br>
+        <input type="text" name="new_gender"><br>
+        <label>New salary</label><br>
+        <input type="text" name="new_salary"><br>
+        <button type="submit">Update</button>
+    </form>
+</div>
+
+
+
+</body>
+</html>

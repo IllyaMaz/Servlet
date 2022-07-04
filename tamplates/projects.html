@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+
+<div th:each="project: ${projects}">
+    <div style="padding-top: 20px">
+    <div th:text="'Name: ' + ${project.nameProject}"></div>
+    <div th:text="'Deadline: ' + ${project.deadline}"></div>
+    <div th:text="'Cost: ' + ${project.cost}"></div>
+        <form action="/projects/delete" method="post">
+            <input type="hidden" th:value="${project.id}" name="id">
+            <button type="submit">Delete</button>
+        </form>
+    </div>
+</div>
+
+<div>
+    <form action="/projects" method="post">
+        <label>Id</label><br>
+        <input type="text" name="id"><br>
+        <label>Name project</label><br>
+        <input type="text" name="name"><br>
+        <label>Deadline</label><br>
+        <input type="text" name="deadline"><br>
+        <label>Cost</label><br>
+        <input type="text" name="cost"><br>
+        <button type="submit">Post</button>
+    </form>
+</div>
+
+<div>
+    <form action="/projects/update" method="post">
+        <label>Old name</label><br>
+        <input type="text" name="old_name"><br>
+        <label>New name</label><br>
+        <input type="text" name="new_name"><br>
+        <label>New deadline</label><br>
+        <input type="text" name="new_deadline"><br>
+        <label>New cost</label><br>
+        <input type="text" name="new_cost"><br>
+        <button type="submit">Update</button>
+
+    </form>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+
+<div th:each="skill: ${skills}">
+    <div style="padding-top: 10px">
+        <div th:text="'Name: ' + ${skill.nameSkill}"></div>
+        <div th:text="'Level: ' + ${skill.levelSkill}"></div>
+        <form action="/skills/delete" method="post">
+            <input type="hidden" th:value="${skill.id}" name="id">
+            <button type="submit">Delete</button>
+        </form>
+    </div>
+</div>
+
+<div>
+    <form action="/skills" method="post">
+        <label>Id</label><br>
+        <input type="text" name="id"><br>
+        <label>Name</label><br>
+        <input type="text" name="name"><br>
+        <label>Level</label><br>
+        <input type="text" name="level"><br>
+        <button type="submit">Post</button>
+    </form>
+</div>
+
+<div>
+    <form action="/skills/update" method="post">
+        <label>Old name</label><br>
+        <input type="text" name="old_name"><br>
+        <label>Old level</label><br>
+        <input type="text" name="old_level"><br>
+        <label>New name</label><br>
+        <input type="text" name="new_name"><br>
+        <label>New level</label><br>
+        <input type="text" name="new_level"><br>
+        <button type="submit">Update</button>
+    </form>
+</div>
+
+</body>
+</html>
