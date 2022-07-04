@@ -28,12 +28,8 @@ public class ThymeleafControler extends HttpServlet {
         driver = new Driver("localhost", 5432,"Goit_task_1","postgres","VisaGold1234");
         connection = driver.getConnection();
         engine = new TemplateEngine();
-        File file = new File("resources/tamplates/");
-        Path path = Path.of("tamplates\\");
-        System.out.println(path.getRoot().toAbsolutePath());
-        System.out.println(path);
         FileTemplateResolver resolver = new FileTemplateResolver();
-        resolver.setPrefix("tamplates\\");
+        resolver.setPrefix(getServletContext().getRealPath("tamplates\\") + "/");
         resolver.setSuffix(".html");
         resolver.setTemplateMode("HTML5");
         resolver.setOrder(engine.getTemplateResolvers().size());
