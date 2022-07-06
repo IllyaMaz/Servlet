@@ -1,7 +1,5 @@
 package dll;
 
-import model.CompaniesDao;
-
 import java.util.List;
 
 public interface Repository<T> {

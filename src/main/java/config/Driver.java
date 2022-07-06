@@ -6,14 +6,19 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 public class Driver {
+
     private final String url;
     private final Properties properties;
 
-    public Driver(String host, int port, String database, String userName, String password){
-        this.url = String.format("jdbc:postgresql://%s:%d/%s",host,port,database);
+    public Driver(DatabaseData databaseData){
+
+        this.url= String.format("jdbc:postgresql://%s:%s/%s",
+                databaseData.getHost(),
+                databaseData.getPort(),
+                databaseData.getDatabase());
         this.properties = new Properties();
-        properties.setProperty("user",userName);
-        properties.setProperty("password",password);
+        this.properties.setProperty("user", databaseData.getUserName());
+        this.properties.setProperty("password", databaseData.getPassword());
     }
 
     public Connection getConnection(){

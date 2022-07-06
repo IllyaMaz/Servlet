@@ -9,7 +9,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -35,11 +34,11 @@ public class DevelopersPage extends ThymeleafControler{
             String id = req.getParameter("id");
             repository.remove(Long.valueOf(id));
         } else if (req.getRequestURI().contains("update")){
-            String old_name = req.getParameter("old_name");
-            String new_name = req.getParameter("new_name");
-            String new_age = req.getParameter("new_age");
-            String new_gender = req.getParameter("new_gender");
-            String new_salary = req.getParameter("new_salary");
+            String old_name = req.getParameter("oldName");
+            String new_name = req.getParameter("newName");
+            String new_age = req.getParameter("newAge");
+            String new_gender = req.getParameter("newGender");
+            String new_salary = req.getParameter("newSalary");
             DevelopersDao byName = repository.getByName(old_name);
 
             if (!new_name.equals("")){

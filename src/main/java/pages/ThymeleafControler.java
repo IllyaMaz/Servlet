@@ -1,5 +1,7 @@
 package pages;
 
+import com.google.gson.Gson;
+import config.DatabaseData;
 import config.Driver;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
@@ -10,24 +12,22 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Path;
-import java.sql.Connection;
+import java.io.*;
 import java.util.HashMap;
 
 @WebServlet("/")
 public class ThymeleafControler extends HttpServlet {
     private TemplateEngine engine;
     private Driver driver;
-    private Connection connection;
+    private File file ;
 
 
     @Override
     public void init() throws ServletException {
-        driver = new Driver("localhost", 5432,"Goit_task_1","postgres","VisaGold1234");
-        connection = driver.getConnection();
-        engine = new TemplateEngine();
+        this.file = new File(getServletContext().getRealPath("properties.json"));
+        String absolutePath = file.getAbsolutePath();
+        this.driver = new Driver(getData());
+        this.engine = new TemplateEngine();
         FileTemplateResolver resolver = new FileTemplateResolver();
         resolver.setPrefix(getServletContext().getRealPath("tamplates\\") + "/");
         resolver.setSuffix(".html");
@@ -56,5 +56,24 @@ public class ThymeleafControler extends HttpServlet {
 
     public Driver getDriver(){
         return driver;
+    }
+
+    public DatabaseData getData() {
+        Gson gson = new Gson();
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))){
+            String result = "";
+            String line = reader.readLine();
+            while (line != null){
+                result += line;
+                line = reader.readLine();
+            }
+
+            return gson.fromJson(result,DatabaseData.class);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

@@ -40,8 +40,8 @@ public class CompaniesPage extends ThymeleafControler {
         Long id = Long.parseLong(string);
         repository.remove(id);
         } else if (req.getRequestURI().contains("update")){
-        String oldName = req.getParameter("old_name");
-        String newName = req.getParameter("new_name");
+        String oldName = req.getParameter("oldName");
+        String newName = req.getParameter("newName");
         CompaniesDao companiesDao = repository.getByName(oldName);
         companiesDao.setNameCompany(newName);
         repository.update(companiesDao);

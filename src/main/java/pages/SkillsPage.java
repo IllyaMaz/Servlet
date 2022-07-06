@@ -34,10 +34,10 @@ public class SkillsPage extends ThymeleafControler{
             String id = req.getParameter("id");
             repository.remove(Long.valueOf(id));
         } else if (req.getRequestURI().contains("update")){
-            String oldName = req.getParameter("old_name");
-            String oldLevel = req.getParameter("old_level");
-            String newName = req.getParameter("new_name");
-            String newLevel = req.getParameter("new_level");
+            String oldName = req.getParameter("oldName");
+            String oldLevel = req.getParameter("oldLevel");
+            String newName = req.getParameter("newName");
+            String newLevel = req.getParameter("newLevel");
             SkillsDao byNameAndLevel = repository.getByNameAndLevel(oldName, oldLevel);
 
             if (!newName.equals("")){

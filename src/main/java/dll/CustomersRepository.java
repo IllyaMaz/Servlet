@@ -1,7 +1,6 @@
 package dll;
 
 import config.Driver;
-import model.CompaniesDao;
 import model.CustomersDao;
 
 import java.sql.Connection;

@@ -35,10 +35,10 @@ public class ProjectsPage extends ThymeleafControler{
             String id = req.getParameter("id");
             repository.remove(Long.valueOf(id));
         } else if (req.getRequestURI().contains("update")){
-            String oldName = req.getParameter("old_name");
-            String newName = req.getParameter("new_name");
-            String newDeadline = req.getParameter("new_deadline");
-            String newCost = req.getParameter("new_cost");
+            String oldName = req.getParameter("oldName");
+            String newName = req.getParameter("newName");
+            String newDeadline = req.getParameter("newDeadline");
+            String newCost = req.getParameter("newCost");
             ProjectsDao byName = repository.getByName(oldName);
 
             if (!newName.equals("")){

@@ -35,8 +35,8 @@ public class CustomersPage extends ThymeleafControler{
             Long id = Long.parseLong(string);
             repository.remove(id);
         } else if(req.getRequestURI().contains("update")){
-            String old_name = req.getParameter("old_name");
-            String new_name = req.getParameter("new_name");
+            String old_name = req.getParameter("oldName");
+            String new_name = req.getParameter("newName");
             CustomersDao customersDao = repository.getByName(old_name);
             customersDao.setName(new_name);
             repository.update(customersDao);
