@@ -25,11 +25,10 @@ public class ThymeleafControler extends HttpServlet {
     @Override
     public void init() throws ServletException {
         this.file = new File(getServletContext().getRealPath("properties.json"));
-        String absolutePath = file.getAbsolutePath();
         this.driver = new Driver(getData());
         this.engine = new TemplateEngine();
         FileTemplateResolver resolver = new FileTemplateResolver();
-        resolver.setPrefix(getServletContext().getRealPath("tamplates\\") + "/");
+        resolver.setPrefix(getServletContext().getRealPath("tamplates") + "/");
         resolver.setSuffix(".html");
         resolver.setTemplateMode("HTML5");
         resolver.setOrder(engine.getTemplateResolvers().size());
