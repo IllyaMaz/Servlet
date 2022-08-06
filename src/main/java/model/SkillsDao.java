@@ -4,11 +4,13 @@ public class SkillsDao {
     private long id;
     private String nameSkill;
     private String levelSkill;
+    private String nameDeveloper;
 
-    public SkillsDao(long id, String nameSkill, String levelSkill){
+    public SkillsDao(long id, String nameSkill, String levelSkill, String idDeveloper){
         this.id=id;
         this.nameSkill=nameSkill;
         this.levelSkill=levelSkill;
+        this.nameDeveloper = idDeveloper;
     }
 
     public SkillsDao(){
@@ -37,5 +39,13 @@ public class SkillsDao {
 
     public void setLevelSkill(String levelSkill) {
         this.levelSkill = levelSkill;
+    }
+
+    public String getNameDeveloper() {
+        return nameDeveloper;
+    }
+
+    public void setNameDeveloper(String idDeveloper) {
+        this.nameDeveloper = idDeveloper;
     }
 }

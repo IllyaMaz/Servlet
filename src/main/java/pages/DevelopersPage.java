@@ -34,27 +34,32 @@ public class DevelopersPage extends ThymeleafControler{
             String id = req.getParameter("id");
             repository.remove(Long.valueOf(id));
         } else if (req.getRequestURI().contains("update")){
-            String old_name = req.getParameter("oldName");
-            String new_name = req.getParameter("newName");
-            String new_age = req.getParameter("newAge");
-            String new_gender = req.getParameter("newGender");
-            String new_salary = req.getParameter("newSalary");
-            DevelopersDao byName = repository.getByName(old_name);
+            String oldName = req.getParameter("oldName");
+            String newName = req.getParameter("newName");
+            String newAge = req.getParameter("newAge");
+            String newGender = req.getParameter("newGender");
+            String newSalary = req.getParameter("newSalary");
+            String newProject = req.getParameter("newProject");
+            DevelopersDao byName = repository.getByName(oldName);
 
-            if (!new_name.equals("")){
-                byName.setFirstName(new_name);
+            if (!newName.equals("")){
+                byName.setFirstName(newName);
             }
 
-            if (!new_age.equals("")){
-                byName.setAge(Integer.parseInt(new_age));
+            if (!newAge.equals("")){
+                byName.setAge(Integer.parseInt(newAge));
             }
 
-            if (!new_gender.equals("")){
-                byName.setGender(new_gender);
+            if (!newGender.equals("")){
+                byName.setGender(newGender);
             }
 
-            if (!new_salary.equals("")){
-                byName.setSalary(Integer.valueOf(new_salary));
+            if (!newSalary.equals("")){
+                byName.setSalary(Integer.valueOf(newSalary));
+            }
+
+            if (!newProject.equals("")){
+                byName.setNameProject(newProject);
             }
 
             repository.update(byName);
@@ -64,11 +69,12 @@ public class DevelopersPage extends ThymeleafControler{
             String age = req.getParameter("age");
             String gender = req.getParameter("gender");
             String salary = req.getParameter("salary");
+            String nameProject = req.getParameter("nameProject");
             DevelopersDao developersDao = new DevelopersDao(Long.parseLong(id),
                     name,
                     Integer.parseInt(age),
                     gender,
-                    Integer.parseInt(salary));
+                    Integer.parseInt(salary),nameProject);
             repository.save(developersDao);
         }
 

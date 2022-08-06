@@ -10,8 +10,8 @@
 <body>
 
 <div th:each="customer: ${customers}">
-    <div th:text="${customer.name}"></div>
-
+    <div th:text="'Name: ' + ${customer.name}"></div>
+    <div th:text="'Company: ' + ${customer.nameCompany}"></div>
     <div>
         <form action="/customers/delete" method="post">
             <input type="hidden" th:value="${customer.id}" name="id">
@@ -26,6 +26,8 @@
         <input type="text" name="id"><br>
         <label>Name</label><br>
         <input type="text" name="name"><br>
+        <label>Company</label><br>
+        <input type="text" name="company"><br>
         <button type="submit">Post</button>
         </form>
 </div>
@@ -36,6 +38,8 @@
         <input type="text" name="oldName"><br>
         <label>New name</label><br>
         <input type="text" name="newName"><br>
+        <label>New Company</label><br>
+        <input type="text" name="newCompany"><br>
         <button type="submit">Update</button>
 
         </form>

@@ -14,11 +14,17 @@ import java.util.List;
 public class SkillsRepository implements Repository<SkillsDao>{
 
     private final Driver connector;
-    private static final String GET_ALL = "select * from skills";
-    private static final String SAVE = "insert into skills (id,name_skill,level_skill) values (?,?,?)";
+    private static final String GET_ALL = "select s.id as id, s.name_skill as name, s.level_skill as level, d.first_name as nameDeveloper" +
+            " from skills s" +
+            " inner join developers d on s.id_developer=d.id";
+    private static final String SAVE = "insert into skills (id,name_skill,level_skill,id_developer) values (?,?,?,?)";
     private static final String REMOVE = "delete from skills s where s.id=?";
-    private static final String UPDATE = "update skills s set name_skill=?, level_skill=? where s.id=?";
-    private static final String GET_BY_NAME_AND_LEVEL = "select * from skills s where s.name_skill = ? and s.level_skill = ?";
+    private static final String UPDATE = "update skills s set name_skill=?, level_skill=?, id_developer = ? where s.id=?";
+    private static final String GET_BY_NAME_AND_LEVEL = "select  s.id as id, s.name_skill as name, s.level_skill as level, d.first_name as nameDeveloper " +
+            "from skills s " +
+            "inner join developers d on s.id_developer=d.id " +
+            "where s.name_skill = ? and s.level_skill = ? and id_developer = ?";
+    private static final String GET_BY_NAME_DEVELOPER = "select id from developers where first_name = ?";
 
     public SkillsRepository(Driver connection){
         this.connector=connection;
@@ -43,15 +49,19 @@ public class SkillsRepository implements Repository<SkillsDao>{
     @Override
     public void save(SkillsDao skillsDao) {
         try (Connection connection = connector.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(SAVE)){
-            preparedStatement.setLong(1,skillsDao.getId());
-            preparedStatement.setString(2,skillsDao.getNameSkill());
-            preparedStatement.setString(3,skillsDao.getLevelSkill());
-            preparedStatement.execute();
+             PreparedStatement save = connection.prepareStatement(SAVE);
+             PreparedStatement getIdDeveloper = connection.prepareStatement(GET_BY_NAME_DEVELOPER)){
+            getIdDeveloper.setString(1,skillsDao.getNameDeveloper());
+            ResultSet resultSet = getIdDeveloper.executeQuery();
+            resultSet.next();
+            save.setLong(1,skillsDao.getId());
+            save.setString(2,skillsDao.getNameSkill());
+            save.setString(3,skillsDao.getLevelSkill());
+            save.setLong(4,resultSet.getLong("id"));
+            save.execute();
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     @Override
@@ -66,11 +76,16 @@ public class SkillsRepository implements Repository<SkillsDao>{
 
     }
 
-    public SkillsDao getByNameAndLevel(String name, String level){
+    public SkillsDao getByNameAndLevel(String name, String level, String nameDeveloper){
         try (Connection connection = connector.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(GET_BY_NAME_AND_LEVEL)){
+            PreparedStatement preparedStatement = connection.prepareStatement(GET_BY_NAME_AND_LEVEL);
+            PreparedStatement getIdDeveloper = connection.prepareStatement(GET_BY_NAME_DEVELOPER)){
+            getIdDeveloper.setString(1,nameDeveloper);
+            ResultSet getId = getIdDeveloper.executeQuery();
+            getId.next();
             preparedStatement.setString(1,name);
             preparedStatement.setString(2,level);
+            preparedStatement.setLong(3,getId.getLong("id"));
             ResultSet resultSet = preparedStatement.executeQuery();
             SkillsDao skillsDao = new SkillsDao();
             while (resultSet.next()){
@@ -86,10 +101,15 @@ public class SkillsRepository implements Repository<SkillsDao>{
     @Override
     public void update(SkillsDao skillsDao) {
         try (Connection connection = connector.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(UPDATE)){
+             PreparedStatement preparedStatement = connection.prepareStatement(UPDATE);
+             PreparedStatement getIdDeveloper = connection.prepareStatement(GET_BY_NAME_DEVELOPER)){
+            getIdDeveloper.setString(1,skillsDao.getNameDeveloper());
+            ResultSet resultSet = getIdDeveloper.executeQuery();
+            resultSet.next();
             preparedStatement.setString(1,skillsDao.getNameSkill());
             preparedStatement.setString(2,skillsDao.getLevelSkill());
-            preparedStatement.setLong(3,skillsDao.getId());
+            preparedStatement.setLong(3,resultSet.getLong("id"));
+            preparedStatement.setLong(4,skillsDao.getId());
             preparedStatement.executeUpdate();
         } catch (Exception e){
             e.printStackTrace();
@@ -100,8 +120,9 @@ public class SkillsRepository implements Repository<SkillsDao>{
         SkillsDao skillsDao = new SkillsDao();
 
         skillsDao.setId(resultSet.getLong("id"));
-        skillsDao.setNameSkill(resultSet.getString("name_skill"));
-        skillsDao.setLevelSkill(resultSet.getString("level_skill"));
+        skillsDao.setNameSkill(resultSet.getString("name"));
+        skillsDao.setLevelSkill(resultSet.getString("level"));
+        skillsDao.setNameDeveloper(resultSet.getString("nameDeveloper"));
 
         return skillsDao;
     }

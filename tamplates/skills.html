@@ -13,11 +13,13 @@
     <div style="padding-top: 10px">
         <div th:text="'Name: ' + ${skill.nameSkill}"></div>
         <div th:text="'Level: ' + ${skill.levelSkill}"></div>
+        <div th:text="'Name Developer: ' + ${skill.nameDeveloper}"></div>
         <form action="/skills/delete" method="post">
             <input type="hidden" th:value="${skill.id}" name="id">
             <button type="submit">Delete</button>
         </form>
     </div>
+</div>
 </div>
 
 <div>
@@ -28,6 +30,8 @@
         <input type="text" name="name"><br>
         <label>Level</label><br>
         <input type="text" name="level"><br>
+        <label>Name Developer</label><br>
+        <input type="text" name="nameDeveloper"><br>
         <button type="submit">Post</button>
     </form>
 </div>
@@ -38,10 +42,14 @@
         <input type="text" name="oldName"><br>
         <label>Old level</label><br>
         <input type="text" name="oldLevel"><br>
+        <label>Old name developer</label><br>
+        <input type="text" name="oldDeveloper"><br>
         <label>New name</label><br>
         <input type="text" name="newName"><br>
         <label>New level</label><br>
         <input type="text" name="newLevel"><br>
+        <label>New name developer</label><br>
+        <input type="text" name="newDeveloper"><br>
         <button type="submit">Update</button>
     </form>
 </div>

@@ -13,7 +13,8 @@
     <div style="padding-top: 20px">
     <div th:text="'Name: ' + ${project.nameProject}"></div>
     <div th:text="'Deadline: ' + ${project.deadline}"></div>
-    <div th:text="'Cost: ' + ${project.cost}"></div>
+        <div th:text="'Name company: ' + ${project.nameCompany}"></div>
+        <div th:text="'Name customer: ' + ${project.nameCustomer}"></div>
         <form action="/projects/delete" method="post">
             <input type="hidden" th:value="${project.id}" name="id">
             <button type="submit">Delete</button>
@@ -29,8 +30,10 @@
         <input type="text" name="name"><br>
         <label>Deadline</label><br>
         <input type="text" name="deadline"><br>
-        <label>Cost</label><br>
-        <input type="text" name="cost"><br>
+        <label>Name company</label><br>
+        <input type="text" name="nameCompany"><br>
+        <label>Name customer</label><br>
+        <input type="text" name="nameCustomer"><br>
         <button type="submit">Post</button>
     </form>
 </div>
@@ -43,8 +46,10 @@
         <input type="text" name="newName"><br>
         <label>New deadline</label><br>
         <input type="text" name="newDeadline"><br>
-        <label>New cost</label><br>
-        <input type="text" name="newCost"><br>
+        <label>New company</label><br>
+        <input type="text" name="newCompany"><br>
+        <label>New customer</label><br>
+        <input type="text" name="newCustomer"><br>
         <button type="submit">Update</button>
 
     </form>

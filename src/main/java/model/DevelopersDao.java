@@ -6,13 +6,15 @@ public class DevelopersDao {
     private Integer age;
     private String gender;
     private Integer salary;
+    private String nameProject;
 
-    public DevelopersDao(Long id, String firstName, Integer age, String gender, Integer salary) {
+    public DevelopersDao(Long id, String firstName, Integer age, String gender, Integer salary, String nameProject) {
         this.id = id;
         this.firstName = firstName;
         this.age = age;
         this.gender = gender;
         this.salary = salary;
+        this.nameProject = nameProject;
     }
 
     public DevelopersDao() {
@@ -59,5 +61,11 @@ public class DevelopersDao {
         this.salary = salary;
     }
 
+    public String getNameProject() {
+        return nameProject;
+    }
 
+    public void setNameProject(String nameProject) {
+        this.nameProject = nameProject;
+    }
 }

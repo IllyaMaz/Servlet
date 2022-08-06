@@ -3,5 +3,5 @@
   "port": 5432,
   "userName": "postgres",
   "password": "VisaGold1234",
-  "database": "Goit_task_1"
+  "database": "Task1.2"
 }

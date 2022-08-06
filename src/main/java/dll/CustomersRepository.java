@@ -13,13 +13,20 @@ import java.util.List;
 public class CustomersRepository implements Repository<CustomersDao>{
 
     private final Driver connector ;
-    private static final String FIND_BY_ID = "select * from customers c ";
-    private static final String SAVE = "insert into customers (id,first_name) values (?,?)";
+    private static final String GET_ALL = "select c.id, c.first_name, co.name_company " +
+            "from customers c " +
+            "inner join companies co on c.id_company= co.id";
+    private static final String SAVE = "insert into customers (id,first_name,id_company) values (?,?,?)";
     private static final String REMOVE = "delete from customers c where c.id=?";
     private static final String UPDATE = "update customers c " +
-            "set first_name = ?"+
+            "set first_name = ?, " +
+            "id_company = ? "+
             "where id = ?";
-    private static final String GET_BY_NAME = "select * from customers c where c.first_name = ?";
+    private static final String GET_BY_NAME = "select c.id, c.first_name, co.name_company " +
+            "from customers c " +
+            "inner join companies co on c.id_company = co.id " +
+            "where c.first_name = ?";
+    private static final String GET_COMPANY_BY_NAME = "select id from companies where name_company = ?";
 
     public CustomersRepository (Driver connection){
         this.connector=connection;
@@ -28,7 +35,7 @@ public class CustomersRepository implements Repository<CustomersDao>{
     @Override
     public List<CustomersDao> getAll()  {
         try (Connection connection = connector.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(FIND_BY_ID)) {
+             PreparedStatement preparedStatement = connection.prepareStatement(GET_ALL)) {
             ResultSet resultSet = preparedStatement.executeQuery();
             List<CustomersDao> list = new ArrayList<>();
             while (resultSet.next()){
@@ -44,9 +51,16 @@ public class CustomersRepository implements Repository<CustomersDao>{
     @Override
     public void save(CustomersDao customersDao) {
         try (Connection connection = connector.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(SAVE)){
+             PreparedStatement preparedStatement = connection.prepareStatement(SAVE);
+             PreparedStatement getCompamyId = connection.prepareStatement(GET_COMPANY_BY_NAME)){
+
+            getCompamyId.setString(1,customersDao.getNameCompany());
+            ResultSet resultSet = getCompamyId.executeQuery();
+            resultSet.next();
+
             preparedStatement.setLong(1,customersDao.getId());
             preparedStatement.setString(2,customersDao.getName());
+            preparedStatement.setLong(3,resultSet.getLong("id"));
             preparedStatement.execute();
         } catch (Exception e){
             e.printStackTrace();
@@ -82,9 +96,16 @@ public class CustomersRepository implements Repository<CustomersDao>{
     @Override
     public void update(CustomersDao customersDao) {
         try (Connection connection = connector.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(UPDATE)){
+             PreparedStatement preparedStatement = connection.prepareStatement(UPDATE);
+             PreparedStatement getCompanyId = connection.prepareStatement(GET_COMPANY_BY_NAME)){
+
+            getCompanyId.setString(1,customersDao.getNameCompany());
+            ResultSet resultSet = getCompanyId.executeQuery();
+            resultSet.next();
+
             preparedStatement.setString(1,customersDao.getName());
-            preparedStatement.setLong(2,customersDao.getId());
+            preparedStatement.setLong(2,resultSet.getLong("id"));
+            preparedStatement.setLong(3,customersDao.getId());
             preparedStatement.executeUpdate();
         } catch (Exception e){
             e.printStackTrace();
@@ -95,6 +116,7 @@ public class CustomersRepository implements Repository<CustomersDao>{
         CustomersDao customersDao = new CustomersDao();
         customersDao.setId(resultSet.getInt("id"));
         customersDao.setName(resultSet.getString("first_name"));
+        customersDao.setNameCompany(resultSet.getString("name_company"));
         return customersDao;
     }
 }

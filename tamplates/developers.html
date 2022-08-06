@@ -16,6 +16,7 @@
     <div th:text="'Age: ' + ${developer.age}"></div>
     <div th:text="'Gender: ' + ${developer.gender}"></div>
     <div th:text="'Salary: ' + ${developer.salary}"></div>
+    <div th:text="'Project: ' + ${developer.nameProject}"></div>
         <form action="/developers/delete" method="post">
             <input type="hidden" th:value="${developer.id}" name="id">
             <button type="submit">Delete</button>
@@ -35,6 +36,8 @@
         <input type="text" name="gender"><br>
         <label>Salary</label><br>
         <input type="text" name="salary"><br>
+        <label>Name project</label><br>
+        <input type="text" name="nameProject"><br>
         <button type="submit">Post</button>
     </form>
 </div>
@@ -51,6 +54,8 @@
         <input type="text" name="newGender"><br>
         <label>New salary</label><br>
         <input type="text" name="newSalary"><br>
+        <label>New project</label><br>
+        <input type="text" name="newProject"><br>
         <button type="submit">Update</button>
     </form>
 </div>

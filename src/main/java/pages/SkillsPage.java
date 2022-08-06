@@ -36,9 +36,11 @@ public class SkillsPage extends ThymeleafControler{
         } else if (req.getRequestURI().contains("update")){
             String oldName = req.getParameter("oldName");
             String oldLevel = req.getParameter("oldLevel");
+            String oldNameDeveloper = req.getParameter("oldDeveloper");
             String newName = req.getParameter("newName");
             String newLevel = req.getParameter("newLevel");
-            SkillsDao byNameAndLevel = repository.getByNameAndLevel(oldName, oldLevel);
+            String newNameDeveloper = req.getParameter("newDeveloper");
+            SkillsDao byNameAndLevel = repository.getByNameAndLevel(oldName, oldLevel,oldNameDeveloper);
 
             if (!newName.equals("")){
                 byNameAndLevel.setNameSkill(newName);
@@ -48,12 +50,17 @@ public class SkillsPage extends ThymeleafControler{
                 byNameAndLevel.setLevelSkill(newLevel);
             }
 
+            if (!newNameDeveloper.equals("")){
+                byNameAndLevel.setNameDeveloper(newNameDeveloper);
+            }
+
             repository.update(byNameAndLevel);
         } else {
             String id = req.getParameter("id");
             String name = req.getParameter("name");
             String level = req.getParameter("level");
-            SkillsDao skillsDao = new SkillsDao(Long.parseLong(id),name,level);
+            String nameDeveloper = req.getParameter("nameDeveloper");
+            SkillsDao skillsDao = new SkillsDao(Long.parseLong(id),name,level,nameDeveloper);
             repository.save(skillsDao);
         }
         resp.sendRedirect("/skills");

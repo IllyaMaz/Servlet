@@ -38,7 +38,8 @@ public class ProjectsPage extends ThymeleafControler{
             String oldName = req.getParameter("oldName");
             String newName = req.getParameter("newName");
             String newDeadline = req.getParameter("newDeadline");
-            String newCost = req.getParameter("newCost");
+            String newCompany = req.getParameter("newCompany");
+            String newCustomer =req.getParameter("newCustomer");
             ProjectsDao byName = repository.getByName(oldName);
 
             if (!newName.equals("")){
@@ -49,17 +50,23 @@ public class ProjectsPage extends ThymeleafControler{
                 byName.setDeadline(newDeadline);
             }
 
-            if (!newCost.equals("")){
-                byName.setCost(Integer.valueOf(newCost));
+            if (!newCompany.equals("")){
+                byName.setNameCompany(newCompany);
             }
+
+            if(!newCustomer.equals("")){
+                byName.setNameCustomer(newCustomer);
+            }
+
 
             repository.update(byName);
         }else {
             String id = req.getParameter("id");
             String name = req.getParameter("name");
             String deadline = req.getParameter("deadline");
-            String cost = req.getParameter("cost");
-            ProjectsDao projectsDao = new ProjectsDao(Integer.parseInt(id),name,deadline,Integer.parseInt(cost));
+            String nameCompany = req.getParameter("nameCompany");
+            String nameCustomer = req.getParameter("nameCustomer");
+            ProjectsDao projectsDao = new ProjectsDao(Integer.parseInt(id),name,deadline,nameCompany,nameCustomer);
             repository.save(projectsDao);
         }
 

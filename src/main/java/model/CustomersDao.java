@@ -3,10 +3,12 @@ package model;
 public class CustomersDao {
     private long id;
     private String name;
+    private String nameCompany;
 
-    public CustomersDao(long id, String name){
+    public CustomersDao(long id, String name, String nameCompany){
         this.id=id;
         this.name=name;
+        this.nameCompany = nameCompany;
     }
 
     public CustomersDao(){
@@ -29,11 +31,12 @@ public class CustomersDao {
         this.name = name;
     }
 
-    @Override
-    public String toString() {
-        return "CustomersDao{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                '}';
+    public String getNameCompany() {
+        return nameCompany;
     }
+
+    public void setNameCompany(String nameCompany) {
+        this.nameCompany = nameCompany;
+    }
+
 }
